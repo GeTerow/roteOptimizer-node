@@ -1,18 +1,26 @@
 import express from 'express';
 import type { Express, Request, Response } from 'express';
 import 'dotenv/config';
-import cors from 'cors'
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import { router } from '../infrastructure/http/routes.js';
 
 const app: Express = express();
-const PORT = process.env.PORT || 3009;
+const PORT = process.env.PORT || 3008;
+
+// Headers de segurança HTTP para proteger contra vulnerabilidades conhecidas
+app.use(helmet());
 
 
-app.use(cors()) 
-app.use((req, res, next) => {
-  res.setHeader('Content-Type', 'application/json; charset=utf-8');
-  next();
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // Janela de 15 minutos
+	max: 100,
+	standardHeaders: true,
+	legacyHeaders: false,
+  message: 'Muitas requisições enviadas deste IP, por favor, tente novamente após 15 minutos.'
 });
+app.use(limiter);
+
 app.use(express.json());
 app.use(router);
 

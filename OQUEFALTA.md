@@ -22,15 +22,6 @@ O núcleo funcional do RoteOptimizer está completo e implementado seguindo uma 
     2.  **Escrever Testes Unitários:** Para cada `UseCase` na camada de `application`, criar testes que verifiquem a lógica de negócio de forma isolada, "mocando" (simulando) as dependências externas (repositórios e serviços).
     3.  **Escrever Testes de Integração:** Criar testes que façam chamadas HTTP reais aos endpoints da API, utilizando um banco de dados de teste, para verificar o fluxo completo da requisição até a resposta.
 
-### 8.3. Segurança da API
-
-* **O que é?** Um conjunto de configurações e ferramentas para proteger a API contra abusos e vulnerabilidades comuns da web.
-* **Por que é necessário?** Uma API desprotegida pode ser alvo de ataques de negação de serviço (DDoS), roubo de dados e outros exploits que podem comprometer o serviço e os dados dos usuários.
-* **Plano de Ação:**
-    1.  **Configurar CORS (`Cross-Origin Resource Sharing`):** Adicionar o middleware `cors` para garantir que apenas o domínio do seu frontend possa fazer requisições para a API a partir de um navegador.
-    2.  **Implementar Rate Limiting:** Usar o middleware `express-rate-limit` para limitar o número de requisições que um mesmo IP pode fazer em um curto período, prevenindo ataques de força bruta e sobrecarga.
-    3.  **Adicionar Headers de Segurança:** Usar o middleware `helmet` para adicionar automaticamente um conjunto de cabeçalhos HTTP que protegem contra vulnerabilidades conhecidas, como Cross-Site Scripting (XSS) e clickjacking.
-
 ### 8.4. Logging Estruturado e Tratamento de Erro Global
 
 * **O que é?** Substituir os `console.log` por um sistema de log profissional e centralizar todo o tratamento de erros da aplicação em um único lugar.
