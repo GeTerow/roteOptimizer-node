@@ -1,8 +1,10 @@
-// src/infrastructure/http/routes.ts
-import { Router } from 'express';
+﻿import { Router } from 'express';
 import multer from 'multer';
 import { ScanController } from './controllers/ScanController.js';
 import { OptimizeController } from './controllers/OptimizeController.js';
+import { CustomerController } from './controllers/CustomerController.js';
+import { PrismaCustomerRepository } from '../repositories/PrismaCustomerRepository.js';
+import { SearchCustomersUseCase } from '../../application/usecases/SearchCustomersUseCase.js';
 import { PythonOptimizerService } from '../services/PythonOptimizerService.js';
 import { OpenAIScanService } from '../services/OpenAiScanService.js';
 import { OptimizeRouteUseCase } from '../../application/usecases/OptimizeRouteUseCase.js';
@@ -23,7 +25,12 @@ const openAIScanService = new OpenAIScanService();
 const scanImageUseCase = new ScanImageUseCase(openAIScanService);
 const scanController = new ScanController(scanImageUseCase);
 
+const prismaCustomerRepository = new PrismaCustomerRepository();
+const searchCustomersUseCase = new SearchCustomersUseCase(prismaCustomerRepository);
+const customerController = new CustomerController(searchCustomersUseCase);
+
 router.post('/api/scan', upload.single('image'), (req, res) => scanController.handle(req, res));
 router.post('/api/optimize', (req, res) => optimizeController.handle(req, res));
 
+router.get('/api/customers/search', (req, res) => customerController.handleSearch(req, res));
 export { router };
